@@ -5,13 +5,15 @@
 #tell the user if they are correct
 #keep asking user to guess until they get it right
 import random
+# reads previous guesses from file
+
 number = random.randint(1,100)
 guess = 0
 guesses = 0
+# creates a list and puts player guesses in it.
+guess_list = []
 while guess != number:
     guess = int(input("Guess a number between 1 and 100: "))
-    # creates a list and puts player guesses in it.
-    guess_list = []
     if guess > number:
         print("Lower")
         guesses += 1
@@ -25,6 +27,6 @@ while guess != number:
         print("Correct")
         guesses += 1
         guess_list.append(guess)
-# saves the number of guesses and prints it
+# saves the number of guesses and prints out all values in the list.
 print("You took", guesses, "guesses")
-print ("Your guesses were: ", guess_list)
+print("Your guesses were: ", guess_list)
