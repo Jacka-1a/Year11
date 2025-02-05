@@ -1,32 +1,46 @@
 #guess the number game
-# create a random number between 1 and 100
+#chooses a random number between 1 and 100
 #ask the user to guess the number
-#tell the user if the number is higher or lower than the guess
-#tell the user if they are correct
+#tells the user if the number is higher or lower than the guess
+#tells the user if they are correct
 #keep asking user to guess until they get it right
 import random
-# reads previous guesses from file
+import os
 
-number = random.randint(1,100)
+# Function to read previous guesses from file
+def read_previous_guesses(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
+            guesses = file.readlines()
+            return [int(guess.strip()) for guess in guesses]
+    else:
+        return []
+
+# Function to write guesses to file
+def write_guesses(file_path, guesses):
+    with open(file_path, "w") as file:
+        for guess in guesses:
+            file.write(f"{guess}\n")
+
+file_path = "guesses.txt"
+number = random.randint(1, 100)
 guess = 0
 guesses = 0
-# creates a list and puts player guesses in it.
-guess_list = []
+guess_list = read_previous_guesses(file_path)  # Read previous guesses
+
+print("Previous guesses:", guess_list)
+
 while guess != number:
     guess = int(input("Guess a number between 1 and 100: "))
     if guess > number:
         print("Lower")
-        guesses += 1
-    #adds player input into list
-        guess_list.append(guess)
     elif guess < number:
         print("Higher")
-        guesses += 1
-        guess_list.append(guess)
     else:
         print("Correct")
-        guesses += 1
-        guess_list.append(guess)
-# saves the number of guesses and prints out all values in the list.
+    guesses += 1
+    guess_list.append(guess)
+    write_guesses(file_path, guess_list)  # Write guesses to file after each guess
+
 print("You took", guesses, "guesses")
-print("Your guesses were: ", guess_list)
+print("Your guesses were:", guess_list)
